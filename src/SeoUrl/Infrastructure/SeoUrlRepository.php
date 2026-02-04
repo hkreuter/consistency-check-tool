@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace OxidEsales\ConsistencyCheck\SeoUrl\Infrastructure;
 
-use Doctrine\DBAL\ForwardCompatibility\Result;
+use Doctrine\DBAL\Result;
 use OxidEsales\ConsistencyCheck\SeoUrl\Dto\SeoUrlDtoInterface;
 use OxidEsales\ConsistencyCheck\SeoUrl\Factory\SeoUrlDtoFactoryInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
@@ -76,8 +76,8 @@ final class SeoUrlRepository implements SeoUrlRepositoryInterface
                 ->setParameter('shopId', $shopId)
                 ->setParameter('rootId', self::ROOT_OBJECT_ID);
 
-            /** @var Result<array> $result */
-            $result = $queryBuilder->execute();
+            /** @var Result $result */
+            $result = $queryBuilder->executeQuery();
 
             while ($row = $result->fetchAssociative()) {
                 /** @var SeoUrlTableRow $row */
@@ -98,8 +98,8 @@ final class SeoUrlRepository implements SeoUrlRepositoryInterface
             ->where('OXSEOURL LIKE :pattern')
             ->setParameter('pattern', '%' . $suffix . '%');
 
-        /** @var Result<array> $result */
-        $result = $queryBuilder->execute();
+        /** @var Result $result */
+        $result = $queryBuilder->executeQuery();
 
         $dtos = [];
         while ($row = $result->fetchAssociative()) {

@@ -42,7 +42,7 @@ class ImageDatabaseRepository implements ImageRepositoryInterface
                 );
 
             /** @var Result $queryResult */
-            $queryResult = $queryBuilder->execute();
+            $queryResult = $queryBuilder->executeQuery();
 
             $imageCollection = $this->imageCollectionFactory->create();
             while ($data = $queryResult->fetchAssociative()) {

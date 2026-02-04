@@ -119,7 +119,7 @@ class ImageDatabaseRepositoryTest extends IntegrationTestCase
                 ->setParameter(":{$column}", $value);
         }
 
-        $queryBuilder->execute();
+        $queryBuilder->executeStatement();
     }
 
     private function getSut(

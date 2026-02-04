@@ -53,7 +53,7 @@ jobs:
           esac
           
           # shellcheck disable=SC2088
-          TESTPLAN="~/defaults/7.4.x.yaml,${LIMIT}~/consistency-check-tool.yaml"
+          TESTPLAN="~/defaults/8.0.x.yaml,${LIMIT}~/consistency-check-tool.yaml"
           echo "testplan=${TESTPLAN}" | tee -a "${GITHUB_OUTPUT}"
 
   dispatch_stable:
