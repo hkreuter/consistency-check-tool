@@ -1,132 +1,146 @@
 services:
   # Product Image Entities
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic1:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC1'
-      $directory: /out/pictures/master/product/1
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic1:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC1'
+  # $directory: /out/pictures/master/product/1
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic2:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC2'
-      $directory: /out/pictures/master/product/2
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic2:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC2'
+  # $directory: /out/pictures/master/product/2
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic3:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC3'
-      $directory: /out/pictures/master/product/3
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic3:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC3'
+  # $directory: /out/pictures/master/product/3
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic4:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC4'
-      $directory: /out/pictures/master/product/4
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic4:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC4'
+  # $directory: /out/pictures/master/product/4
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic5:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC5'
-      $directory: /out/pictures/master/product/5
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic5:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC5'
+  # $directory: /out/pictures/master/product/5
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic6:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC6'
-      $directory: /out/pictures/master/product/6
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic6:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC6'
+  # $directory: /out/pictures/master/product/6
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic7:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC7'
-      $directory: /out/pictures/master/product/7
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic7:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC7'
+  # $directory: /out/pictures/master/product/7
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic8:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC8'
-      $directory: /out/pictures/master/product/8
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic8:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC8'
+  # $directory: /out/pictures/master/product/8
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic9:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC9'
-      $directory: /out/pictures/master/product/9
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic9:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC9'
+  # $directory: /out/pictures/master/product/9
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic10:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC10'
-      $directory: /out/pictures/master/product/10
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic10:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC10'
+  # $directory: /out/pictures/master/product/10
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic11:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC11'
-      $directory: /out/pictures/master/product/11
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic11:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC11'
+  # $directory: /out/pictures/master/product/11
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxpic12:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXPIC12'
-      $directory: /out/pictures/master/product/12
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxpic12:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXPIC12'
+  # $directory: /out/pictures/master/product/12
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxicon:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXICON'
-      $directory: /out/pictures/master/product/icon
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxicon:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXICON'
+  # $directory: /out/pictures/master/product/icon
+  # tags: ['oe.consistency_check.image_entity']
 
-  oxid_esales.consistency_check.entity.image_entity.product.oxthumb:
-    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
-    arguments:
-      $name: 'Product'
-      $table: 'oxarticles'
-      $fieldName: 'OXTHUMB'
-      $directory: /out/pictures/master/product/thumb
-    tags: ['oe.consistency_check.image_entity']
+  # LEGACY (OXID 7.x) - Commented out for 8.0 migration
+  # oxid_esales.consistency_check.entity.image_entity.product.oxthumb:
+  # class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
+  # arguments:
+  # $name: 'Product'
+  # $table: 'oxarticles'
+  # $fieldName: 'OXTHUMB'
+  # $directory: /out/pictures/master/product/thumb
+  # tags: ['oe.consistency_check.image_entity']
 
-  # Category Image Entities
+  # # Category Image Entities
   oxid_esales.consistency_check.entity.image_entity.category.oxthumb:
     class: OxidEsales\ConsistencyCheck\ImageManager\Entity\ImageEntity
     arguments:
@@ -191,3 +205,34 @@ services:
       $fieldName: 'OXTHUMBNAIL'
       $directory: /out/pictures/master/manufacturer/thumb
     tags: ['oe.consistency_check.image_entity']
+
+  # ======================================================================
+  # OXID 8.0 Media System Entities (Auto-generated)
+  # Replaces legacy OXPIC1-12 field-based entities
+  # ======================================================================
+  # OXID 8.0 Media-based Product Images
+  # Replaces legacy OXPIC1-12 field entities
+  oxid_esales.consistency_check.entity.media_image_entity.product:
+    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\MediaImageEntity
+    arguments:
+      $name: 'ProductMedia'
+      $mediaType: 'product'
+    tags: ['oe.consistency_check.media_image_entity']
+
+  # Product Thumbnail (via media roles)
+  oxid_esales.consistency_check.entity.media_role_image_entity.product.thumbnail:
+    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\MediaRoleImageEntity
+    arguments:
+      $name: 'ProductThumbnail'
+      $mediaType: 'product'
+      $role: 'thumbnail'
+    tags: ['oe.consistency_check.media_image_entity']
+
+  # Product Icon (via media roles)
+  oxid_esales.consistency_check.entity.media_role_image_entity.product.icon:
+    class: OxidEsales\ConsistencyCheck\ImageManager\Entity\MediaRoleImageEntity
+    arguments:
+      $name: 'ProductIcon'
+      $mediaType: 'product'
+      $role: 'icon'
+    tags: ['oe.consistency_check.media_image_entity']

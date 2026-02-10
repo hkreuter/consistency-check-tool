@@ -47,3 +47,12 @@ services:
     class: OxidEsales\ConsistencyCheck\ImageManager\Service\VerboseConsoleLogReporter
     arguments:
       $formatter: '@OxidEsales\ConsistencyCheck\Shared\Service\MessageFormatterServiceInterface'
+
+  # OXID 8.0 Media Unused Image Finder
+  OxidEsales\ConsistencyCheck\ImageManager\Service\MediaUnusedImageFinderServiceInterface:
+    class: OxidEsales\ConsistencyCheck\ImageManager\Service\MediaUnusedImageFinderService
+    arguments:
+      $mediaDatabaseRepository: '@OxidEsales\ConsistencyCheck\ImageManager\Repository\MediaImageDatabaseRepository'
+      $mediaDirectoryRepository: '@OxidEsales\ConsistencyCheck\ImageManager\Repository\MediaImageDirectoryRepository'
+      $imageCollectionFactory: '@OxidEsales\ConsistencyCheck\ImageManager\Factory\ImageCollectionFactoryInterface'
+      $logger: '@OxidEsales\ConsistencyCheck\ImageManager\Logger'

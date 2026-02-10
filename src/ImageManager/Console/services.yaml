@@ -18,3 +18,22 @@ services:
       $messageFormatter: '@OxidEsales\ConsistencyCheck\Shared\Service\MessageFormatterServiceInterface'
     tags:
       - { name: 'console.command', command: 'oe:consistency_check:delete-unused-images' }
+
+  # OXID 8.0 Media Commands
+  OxidEsales\ConsistencyCheck\ImageManager\Console\MoveUnusedMediaImagesCommand:
+    arguments:
+      $mediaEntities: !tagged_iterator 'oe.consistency_check.media_image_entity'
+      $mediaImageCheckerService: '@OxidEsales\ConsistencyCheck\ImageManager\Service\MediaUnusedImageFinderServiceInterface'
+      $logger: '@OxidEsales\ConsistencyCheck\ImageManager\Logger'
+      $messageFormatter: '@OxidEsales\ConsistencyCheck\Shared\Service\MessageFormatterServiceInterface'
+    tags:
+      - { name: 'console.command', command: 'oe:consistency_check:move-unused-media-images' }
+
+  OxidEsales\ConsistencyCheck\ImageManager\Console\DeleteUnusedMediaImagesCommand:
+    arguments:
+      $mediaEntities: !tagged_iterator 'oe.consistency_check.media_image_entity'
+      $mediaImageCheckerService: '@OxidEsales\ConsistencyCheck\ImageManager\Service\MediaUnusedImageFinderServiceInterface'
+      $logger: '@OxidEsales\ConsistencyCheck\ImageManager\Logger'
+      $messageFormatter: '@OxidEsales\ConsistencyCheck\Shared\Service\MessageFormatterServiceInterface'
+    tags:
+      - { name: 'console.command', command: 'oe:consistency_check:delete-unused-media-images' }

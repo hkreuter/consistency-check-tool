@@ -6,3 +6,8 @@ services:
   OxidEsales\ConsistencyCheck\ImageManager\Repository\ImageDirectoryRepository: ~
 
   OxidEsales\ConsistencyCheck\ImageManager\Repository\ImageDatabaseRepository: ~
+
+  # OXID 8.0 Media Repositories
+  OxidEsales\ConsistencyCheck\ImageManager\Repository\MediaImageDatabaseRepository: ~
+
+  OxidEsales\ConsistencyCheck\ImageManager\Repository\MediaImageDirectoryRepository: ~
