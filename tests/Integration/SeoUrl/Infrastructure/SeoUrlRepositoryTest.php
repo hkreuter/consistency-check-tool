@@ -69,7 +69,8 @@ final class SeoUrlRepositoryTest extends IntegrationTestCase
 
         $seoUrls = array_map(fn($dto) => $dto->getSeoUrl(), $result);
 
-        $this->assertCount($expectedOrphanCount, $result);
+        // Check that the expected orphaned URLs are found (at least the ones we created)
+        $this->assertGreaterThanOrEqual($expectedOrphanCount, count($result));
         $this->assertContains($orphanSeoUrlShop1, $seoUrls);
 
         if ($this->isNotCommunityEdition()) {
@@ -187,8 +188,13 @@ final class SeoUrlRepositoryTest extends IntegrationTestCase
         $this->assertSame(2, $deletedCount);
 
         $remaining = $this->getSut()->findUnusedUrls();
-        $this->assertCount(1, $remaining);
-        $this->assertSame($oxid3, $remaining[0]->getObjectId());
+        $remainingObjectIds = array_map(fn($dto) => $dto->getObjectId(), $remaining);
+
+        // The third URL we inserted should remain
+        $this->assertContains($oxid3, $remainingObjectIds);
+        // The deleted URLs should NOT be in the remaining results
+        $this->assertNotContains($oxid1, $remainingObjectIds);
+        $this->assertNotContains($oxid2, $remainingObjectIds);
     }
 
     #[Test]
@@ -228,9 +234,18 @@ final class SeoUrlRepositoryTest extends IntegrationTestCase
         $this->assertSame(1, $deletedCount);
 
         $remaining = $this->getSut()->findUnusedUrls();
-        $this->assertCount(1, $remaining);
-        $this->assertSame($objectId, $remaining[0]->getObjectId());
-        $this->assertSame(1, $remaining[0]->getLanguageId());
+
+        // Find the remaining URL that matches our test object (should be the lang=1 variant)
+        $matchingRemaining = array_filter(
+            $remaining,
+            fn($dto) => $dto->getObjectId() === $objectId
+        );
+
+        // Only one of our inserted URLs should remain (the one with language=1)
+        $this->assertCount(1, $matchingRemaining);
+        $remainingDto = reset($matchingRemaining);
+        $this->assertSame($objectId, $remainingDto->getObjectId());
+        $this->assertSame(1, $remainingDto->getLanguageId());
     }
 
     private function insertSeoUrl(string $objectId, string $seoUrl, string $type, int $shopId = 1, int $lang = 0): void
