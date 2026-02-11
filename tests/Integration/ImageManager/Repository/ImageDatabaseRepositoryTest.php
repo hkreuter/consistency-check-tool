@@ -23,14 +23,13 @@ use PHPUnit\Framework\Attributes\Test;
 use OxidEsales\ConsistencyCheck\ImageManager\Repository\ImageDatabaseRepository;
 
 /**
- * Tests for the legacy field-based ImageDatabaseRepository.
+ * Tests for ImageDatabaseRepository (legacy field-based image storage).
  *
  * OXID 8.0 Architecture:
- * - Product images: Moved to oxmedia/oxproduct_media tables (see MediaImageDatabaseRepositoryTest)
- * - Category images: Still use field-based storage (oxcategories.OXTHUMB, OXICON, OXPROMOICON)
- * - Manufacturer images: Still use field-based storage (oxmanufacturers.OXICON, OXPICTURE, etc.)
+ * - Product images moved to oxmedia/oxproduct_media tables (see MediaImageDatabaseRepositoryTest)
+ * - Category/Manufacturer images still use legacy field-based storage
  *
- * This repository and test cover the category/manufacturer use case.
+ * This repository handles category and manufacturer images in OXID 8.0.
  */
 class ImageDatabaseRepositoryTest extends IntegrationTestCase
 {
