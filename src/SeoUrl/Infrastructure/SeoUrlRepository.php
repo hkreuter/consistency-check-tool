@@ -138,7 +138,7 @@ final class SeoUrlRepository implements SeoUrlRepositoryInterface
             );
 
             $result = $this->connectionFactory->create()->executeStatement($sql, $params);
-            $deleted += $result;
+            $deleted += (int) $result;
         }
 
         return $deleted;

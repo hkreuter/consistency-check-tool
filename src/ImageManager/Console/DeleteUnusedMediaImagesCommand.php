@@ -10,16 +10,19 @@ declare(strict_types=1);
 namespace OxidEsales\ConsistencyCheck\ImageManager\Console;
 
 use OxidEsales\ConsistencyCheck\ImageManager\Dto\ImageCollectionInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Command to delete unused media images (OXID 8.0).
  */
+#[AsCommand(
+    name: 'oe:consistency_check:delete-unused-media-images',
+    description: 'Deletes unused media images (OXID 8.0).'
+)]
 class DeleteUnusedMediaImagesCommand extends AbstractUnusedMediaImagesCommand
 {
-    protected static $defaultName = 'oe:consistency_check:delete-unused-media-images';
-
     protected const MESSAGE_DELETED_IMAGES = 'Deleted %d media images for entity %s';
     protected const MESSAGE_COMPLETION = 'Unused media image deletion operation completed.';
 

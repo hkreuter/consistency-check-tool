@@ -9,12 +9,15 @@ declare(strict_types=1);
 
 namespace OxidEsales\ConsistencyCheck\SeoUrl\Console;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 
+#[AsCommand(
+    name: 'oe:consistency_check:check-unused-seo-urls',
+    description: 'Check for unused SEO URLs'
+)]
 final class CheckUnusedSeoUrlsCommand extends AbstractCheckSeoUrlsCommand
 {
-    protected static $defaultName = 'oe:consistency_check:check-unused-seo-urls';
-
     private const COMMAND_DESCRIPTION = 'Check for unused SEO URLs';
     private const MESSAGE_NO_RESULTS = 'No unused SEO URLs found';
     private const MESSAGE_RESULTS = 'Found %d unused SEO URLs';

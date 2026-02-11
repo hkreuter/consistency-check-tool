@@ -9,13 +9,16 @@ declare(strict_types=1);
 
 namespace OxidEsales\ConsistencyCheck\SeoUrl\Console;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
+#[AsCommand(
+    name: 'oe:consistency_check:check-duplicate-seo-urls',
+    description: 'Check for duplicate SEO URLs with collision suffixes'
+)]
 final class CheckDuplicateSeoUrlsCommand extends AbstractCheckSeoUrlsCommand
 {
-    protected static $defaultName = 'oe:consistency_check:check-duplicate-seo-urls';
-
     private const COMMAND_DESCRIPTION = 'Check for duplicate SEO URLs with collision suffixes';
     private const COMMAND_OPTION_SUFFIX = 'Custom suffix to search for (overrides shop config)';
     private const MESSAGE_NO_RESULTS = 'No duplicate SEO URLs found';

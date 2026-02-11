@@ -16,16 +16,19 @@ use OxidEsales\ConsistencyCheck\SeoUrl\Service\SeoUrlServiceInterface;
 use OxidEsales\ConsistencyCheck\SeoUrl\Service\SeoUrlTableRendererInterface;
 use OxidEsales\ConsistencyCheck\Shared\Service\MessageFormatterServiceInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(
+    name: 'oe:consistency_check:delete-seo-urls',
+    description: 'Delete SEO URLs from CSV file (batch operation)'
+)]
 final class DeleteSeoUrlsCommand extends Command
 {
-    protected static $defaultName = 'oe:consistency_check:delete-seo-urls';
-
     private const COMMAND_DESCRIPTION = 'Delete SEO URLs from CSV file (batch operation)';
     private const COMMAND_ARGUMENT_FILE = 'Absolute path to CSV file containing URLs to delete';
     private const COMMAND_OPTION_DRY_RUN = 'Perform a dry run without actual deletions';
