@@ -39,8 +39,8 @@ final class CheckUnusedSeoUrlsCommandTest extends IntegrationTestCase
             $qb = $this->get(QueryBuilderFactoryInterface::class)->create();
             $qb->delete('oxseo')
                 ->where($qb->expr()->in('OXOBJECTID', ':ids'))
-                ->setParameter('ids', $this->insertedIds, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
-                ->execute();
+                ->setParameter('ids', $this->insertedIds, \Doctrine\DBAL\ArrayParameterType::STRING)
+                ->executeStatement();
         }
 
         parent::tearDown();
@@ -193,7 +193,7 @@ final class CheckUnusedSeoUrlsCommandTest extends IntegrationTestCase
             ->andWhere('OXOBJECTID NOT IN (SELECT OXID FROM oxcategories)')
             ->andWhere('OXOBJECTID NOT IN (SELECT OXID FROM oxmanufacturers)')
             ->andWhere('OXOBJECTID NOT IN (SELECT OXID FROM oxcontents)')
-            ->execute();
+            ->executeStatement();
     }
 
     private function insertSeoUrl(string $objectId, string $seoUrl, string $type): void
@@ -226,7 +226,7 @@ final class CheckUnusedSeoUrlsCommandTest extends IntegrationTestCase
                 'expired' => 0,
                 'params' => '',
             ])
-            ->execute();
+            ->executeStatement();
     }
 
     private function getSut(): CheckUnusedSeoUrlsCommand

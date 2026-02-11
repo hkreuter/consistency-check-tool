@@ -42,8 +42,8 @@ final class CheckDuplicateSeoUrlsCommandTest extends IntegrationTestCase
             $qb = $this->get(QueryBuilderFactoryInterface::class)->create();
             $qb->delete('oxseo')
                 ->where($qb->expr()->in('OXOBJECTID', ':ids'))
-                ->setParameter('ids', $this->insertedIds, \Doctrine\DBAL\Connection::PARAM_STR_ARRAY)
-                ->execute();
+                ->setParameter('ids', $this->insertedIds, \Doctrine\DBAL\ArrayParameterType::STRING)
+                ->executeStatement();
         }
 
         parent::tearDown();
@@ -143,6 +143,6 @@ final class CheckDuplicateSeoUrlsCommandTest extends IntegrationTestCase
                 'expired' => 0,
                 'params' => '',
             ])
-            ->execute();
+            ->executeStatement();
     }
 }

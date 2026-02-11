@@ -7,13 +7,9 @@ services:
     class: Monolog\Logger
     factory: [ '@OxidEsales\ConsistencyCheck\ImageManager\Logger\Factory', 'create' ]
 
+  # OXID 8.0: MonologLoggerFactory constructor changed - takes direct arguments instead of Configuration object
   OxidEsales\ConsistencyCheck\ImageManager\Logger\Factory:
     class: OxidEsales\EshopCommunity\Internal\Framework\Logger\Factory\MonologLoggerFactory
-    arguments:
-      $configuration: '@OxidEsales\ConsistencyCheck\ImageManager\Logger\Configuration'
-
-  OxidEsales\ConsistencyCheck\ImageManager\Logger\Configuration:
-    class: OxidEsales\EshopCommunity\Internal\Framework\Logger\Configuration\MonologConfiguration
     arguments:
       $loggerName: 'Consistency Check Logger'
       $logFilePath: '%app.log_file_path%'

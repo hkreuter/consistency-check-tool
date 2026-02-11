@@ -10,13 +10,16 @@ declare(strict_types=1);
 namespace OxidEsales\ConsistencyCheck\ImageManager\Console;
 
 use OxidEsales\ConsistencyCheck\ImageManager\Dto\ImageCollectionInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
+#[AsCommand(
+    name: 'oe:consistency_check:delete-unused-images',
+    description: 'Deletes unused images.'
+)]
 class DeleteUnusedImagesCommand extends AbstractUnusedImagesCommand
 {
-    protected static $defaultName = 'oe:consistency_check:delete-unused-images';
-
     protected const MESSAGE_DELETED_IMAGES = 'Deleted %d images for entity %s';
     protected const MESSAGE_COMPLETION = 'Unused image deletion operation completed.';
 

@@ -128,7 +128,7 @@ class ImageDatabaseRepositoryTest extends IntegrationTestCase
 
         foreach ($fields as $column => $value) {
             $queryBuilder->setValue($column, ":{$column}")
-                ->setParameter(":{$column}", $value);
+                ->setParameter($column, $value);
         }
 
         $queryBuilder->executeStatement();

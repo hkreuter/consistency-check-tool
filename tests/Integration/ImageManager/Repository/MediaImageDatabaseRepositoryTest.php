@@ -19,12 +19,31 @@ use OxidEsales\ConsistencyCheck\ImageManager\Factory\ImageDataTypeFactoryInterfa
 use OxidEsales\ConsistencyCheck\ImageManager\Repository\MediaImageDatabaseRepository;
 use OxidEsales\ConsistencyCheck\ImageManager\Repository\MediaImageRepositoryInterface;
 use OxidEsales\EshopCommunity\Core\Di\ContainerFacade;
-use OxidEsales\EshopCommunity\Internal\Framework\Database\ConnectionProviderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use PHPUnit\Framework\Attributes\Test;
 
 class MediaImageDatabaseRepositoryTest extends IntegrationTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->cleanupMediaTables();
+    }
+
+    private function cleanupMediaTables(): void
+    {
+        $queryBuilderFactory = ContainerFacade::get(QueryBuilderFactoryInterface::class);
+
+        // Clean oxproduct_media first due to foreign key references
+        $queryBuilder = $queryBuilderFactory->create();
+        $queryBuilder->delete('oxproduct_media')->executeStatement();
+
+        // Then clean oxmedia
+        $queryBuilder = $queryBuilderFactory->create();
+        $queryBuilder->delete('oxmedia')->executeStatement();
+    }
+
     #[Test]
     public function itReturnsAllMediaImagesAsImageDataTypeObjects(): void
     {
@@ -32,17 +51,17 @@ class MediaImageDatabaseRepositoryTest extends IntegrationTestCase
         $image2 = uniqid() . '.png';
         $productId = uniqid();
 
-        $connectionProvider = ContainerFacade::get(ConnectionProviderInterface::class);
+        $queryBuilderFactory = ContainerFacade::get(QueryBuilderFactoryInterface::class);
 
         // Insert media records and link them to a product
-        $mediaId1 = $this->insertMediaRecord($connectionProvider, $image1);
-        $mediaId2 = $this->insertMediaRecord($connectionProvider, $image2);
-        $this->insertProductMediaRecord($connectionProvider, $productId, $mediaId1, 1);
-        $this->insertProductMediaRecord($connectionProvider, $productId, $mediaId2, 2);
+        $mediaId1 = $this->insertMediaRecord($queryBuilderFactory, $image1);
+        $mediaId2 = $this->insertMediaRecord($queryBuilderFactory, $image2);
+        $this->insertProductMediaRecord($queryBuilderFactory, $productId, $mediaId1, 1);
+        $this->insertProductMediaRecord($queryBuilderFactory, $productId, $mediaId2, 2);
 
         // Also insert a media record not linked to any product (should still be found)
         $image3 = uniqid() . '.gif';
-        $this->insertMediaRecord($connectionProvider, $image3);
+        $this->insertMediaRecord($queryBuilderFactory, $image3);
 
         $entity = new MediaImageEntity('ProductMedia', 'product');
 
@@ -69,7 +88,7 @@ class MediaImageDatabaseRepositoryTest extends IntegrationTestCase
         $imageCollectionFactoryStub->method('create')->willReturn($imageCollectionMock);
 
         $sut = $this->getSut(
-            connectionProvider: $connectionProvider,
+            queryBuilderFactory: $queryBuilderFactory,
             imageDataTypeFactory: $imageDataTypeFactoryMock,
             imageCollectionFactory: $imageCollectionFactoryStub,
         );
@@ -99,12 +118,12 @@ class MediaImageDatabaseRepositoryTest extends IntegrationTestCase
     #[Test]
     public function itSkipsEmptyFilenames(): void
     {
-        $connectionProvider = ContainerFacade::get(ConnectionProviderInterface::class);
+        $queryBuilderFactory = ContainerFacade::get(QueryBuilderFactoryInterface::class);
         $productId = uniqid();
 
         // Insert media with empty filename
-        $mediaId = $this->insertMediaRecord($connectionProvider, '');
-        $this->insertProductMediaRecord($connectionProvider, $productId, $mediaId, 1);
+        $mediaId = $this->insertMediaRecord($queryBuilderFactory, '');
+        $this->insertProductMediaRecord($queryBuilderFactory, $productId, $mediaId, 1);
 
         $entity = new MediaImageEntity('ProductMedia', 'product');
 
@@ -115,7 +134,7 @@ class MediaImageDatabaseRepositoryTest extends IntegrationTestCase
         $imageCollectionFactoryStub->method('create')->willReturn($imageCollectionMock);
 
         $sut = $this->getSut(
-            connectionProvider: $connectionProvider,
+            queryBuilderFactory: $queryBuilderFactory,
             imageCollectionFactory: $imageCollectionFactoryStub,
         );
 
@@ -123,50 +142,57 @@ class MediaImageDatabaseRepositoryTest extends IntegrationTestCase
     }
 
     private function insertMediaRecord(
-        ConnectionProviderInterface $connectionProvider,
+        QueryBuilderFactoryInterface $queryBuilderFactory,
         string $filename
     ): string {
         $mediaId = uniqid();
-        $connection = $connectionProvider->get();
+        $queryBuilder = $queryBuilderFactory->create();
 
-        $connection->executeStatement(
-            'INSERT INTO oxmedia (OXID, OXFILENAME) VALUES (:id, :filename)',
-            ['id' => $mediaId, 'filename' => $filename]
-        );
+        // OXID 8.0: oxmedia uses lowercase columns: id, path, type
+        $queryBuilder->insert('oxmedia')
+            ->setValue('id', ':id')
+            ->setValue('path', ':path')
+            ->setValue('type', ':type')
+            ->setParameter('id', $mediaId)
+            ->setParameter('path', $filename)
+            ->setParameter('type', 'image')
+            ->executeStatement();
 
         return $mediaId;
     }
 
     private function insertProductMediaRecord(
-        ConnectionProviderInterface $connectionProvider,
+        QueryBuilderFactoryInterface $queryBuilderFactory,
         string $productId,
         string $mediaId,
-        int $sort
+        int $position
     ): void {
-        $connection = $connectionProvider->get();
+        $queryBuilder = $queryBuilderFactory->create();
 
-        $connection->executeStatement(
-            'INSERT INTO oxproduct_media (OXID, OXARTICLEID, OXMEDIAID, OXSORT) VALUES (:id, :productId, :mediaId, :sort)',
-            [
-                'id' => uniqid(),
-                'productId' => $productId,
-                'mediaId' => $mediaId,
-                'sort' => $sort,
-            ]
-        );
+        // OXID 8.0: oxproduct_media uses: id, product_id, media_id, position
+        $queryBuilder->insert('oxproduct_media')
+            ->setValue('id', ':id')
+            ->setValue('product_id', ':productId')
+            ->setValue('media_id', ':mediaId')
+            ->setValue('position', ':position')
+            ->setParameter('id', uniqid())
+            ->setParameter('productId', $productId)
+            ->setParameter('mediaId', $mediaId)
+            ->setParameter('position', $position)
+            ->executeStatement();
     }
 
     private function getSut(
-        ?ConnectionProviderInterface $connectionProvider = null,
+        ?QueryBuilderFactoryInterface $queryBuilderFactory = null,
         ?ImageDataTypeFactoryInterface $imageDataTypeFactory = null,
         ?ImageCollectionFactoryInterface $imageCollectionFactory = null
     ): MediaImageRepositoryInterface {
-        $connectionProvider ??= ContainerFacade::get(ConnectionProviderInterface::class);
+        $queryBuilderFactory ??= ContainerFacade::get(QueryBuilderFactoryInterface::class);
         $imageDataTypeFactory ??= $this->createStub(ImageDataTypeFactoryInterface::class);
         $imageCollectionFactory ??= $this->createStub(ImageCollectionFactoryInterface::class);
 
         return new MediaImageDatabaseRepository(
-            connectionProvider: $connectionProvider,
+            queryBuilderFactory: $queryBuilderFactory,
             imageDataTypeFactory: $imageDataTypeFactory,
             imageCollectionFactory: $imageCollectionFactory
         );

@@ -12,6 +12,7 @@ namespace OxidEsales\ConsistencyCheck\SeoUrl\Infrastructure;
 use Doctrine\DBAL\Result;
 use OxidEsales\ConsistencyCheck\SeoUrl\Dto\SeoUrlDtoInterface;
 use OxidEsales\ConsistencyCheck\SeoUrl\Factory\SeoUrlDtoFactoryInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Database\ConnectionFactoryInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\ShopAdapterInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
@@ -34,6 +35,7 @@ final class SeoUrlRepository implements SeoUrlRepositoryInterface
         private readonly iterable $seoTypeTableMappings,
         private readonly ContextInterface $context,
         private readonly ShopAdapterInterface $shopAdapter,
+        private readonly ConnectionFactoryInterface $connectionFactory,
     ) {
     }
 
@@ -135,8 +137,7 @@ final class SeoUrlRepository implements SeoUrlRepositoryInterface
                 implode(', ', $tuples)
             );
 
-            $connection = $this->queryBuilderFactory->create()->getConnection();
-            $result = $connection->executeStatement($sql, $params);
+            $result = $this->connectionFactory->create()->executeStatement($sql, $params);
             $deleted += $result;
         }
 

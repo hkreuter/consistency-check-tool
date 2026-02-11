@@ -15,6 +15,7 @@ use OxidEsales\ConsistencyCheck\SeoUrl\Infrastructure\SeoTypeTableMapping;
 use OxidEsales\ConsistencyCheck\SeoUrl\Infrastructure\SeoUrlRepository;
 use OxidEsales\ConsistencyCheck\SeoUrl\Infrastructure\SeoUrlRepositoryInterface;
 use OxidEsales\Eshop\Application\Model\Article;
+use OxidEsales\EshopCommunity\Internal\Framework\Database\ConnectionFactoryInterface;
 use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Adapter\ShopAdapterInterface;
 use OxidEsales\EshopCommunity\Internal\Transition\Utility\ContextInterface;
@@ -262,7 +263,7 @@ final class SeoUrlRepositoryTest extends IntegrationTestCase
                 'expired' => 0,
                 'params' => '',
             ])
-            ->execute();
+            ->executeStatement();
     }
 
     private function createDto(string $objectId, int $shopId, int $languageId): SeoUrlDto
@@ -312,6 +313,7 @@ final class SeoUrlRepositoryTest extends IntegrationTestCase
             $mappings,
             $this->get(ContextInterface::class),
             $this->get(ShopAdapterInterface::class),
+            $this->get(ConnectionFactoryInterface::class),
         );
     }
 

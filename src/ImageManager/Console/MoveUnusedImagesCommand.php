@@ -10,15 +10,18 @@ declare(strict_types=1);
 namespace OxidEsales\ConsistencyCheck\ImageManager\Console;
 
 use OxidEsales\ConsistencyCheck\ImageManager\Dto\ImageCollectionInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 
+#[AsCommand(
+    name: 'oe:consistency_check:move-unused-images',
+    description: 'Moves unused images to a new destination.'
+)]
 class MoveUnusedImagesCommand extends AbstractUnusedImagesCommand
 {
-    protected static $defaultName = 'oe:consistency_check:move-unused-images';
-
     protected const MESSAGE_MOVED_IMAGES = 'Moved %d images for entity %s';
     protected const MESSAGE_COMPLETION = 'Unused image move operation completed.';
     protected const ERROR_DESTINATION_REQUIRED = 'Error: The --destination option is required.';

@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace OxidEsales\ConsistencyCheck\ImageManager\Repository;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception as DBALException;
+use Doctrine\DBAL\Result;
 use OxidEsales\ConsistencyCheck\ImageManager\Dto\ImageCollectionInterface;
 use OxidEsales\ConsistencyCheck\ImageManager\Entity\MediaImageEntityInterface;
 use OxidEsales\ConsistencyCheck\ImageManager\Exception\ImageDatabaseRepositoryException;
 use OxidEsales\ConsistencyCheck\ImageManager\Factory\ImageCollectionFactoryInterface;
 use OxidEsales\ConsistencyCheck\ImageManager\Factory\ImageDataTypeFactoryInterface;
-use OxidEsales\EshopCommunity\Internal\Framework\Database\ConnectionProviderInterface;
+use OxidEsales\EshopCommunity\Internal\Framework\Database\QueryBuilderFactoryInterface;
 
 /**
  * Repository for fetching images from OXID 8.0 media tables (oxmedia, oxproduct_media).
@@ -26,7 +26,7 @@ class MediaImageDatabaseRepository implements MediaImageRepositoryInterface
     private const MEDIA_DIRECTORY = '/out/pictures/ddmedia';
 
     public function __construct(
-        private readonly ConnectionProviderInterface $connectionProvider,
+        private readonly QueryBuilderFactoryInterface $queryBuilderFactory,
         private readonly ImageDataTypeFactoryInterface $imageDataTypeFactory,
         private readonly ImageCollectionFactoryInterface $imageCollectionFactory,
     ) {
@@ -38,8 +38,28 @@ class MediaImageDatabaseRepository implements MediaImageRepositoryInterface
     public function getImages(MediaImageEntityInterface $entity): ImageCollectionInterface
     {
         try {
-            $connection = $this->connectionProvider->get();
-            $result = $connection->executeQuery($this->getQueryForMediaType($entity->getMediaType()));
+            $queryBuilder = $this->queryBuilderFactory->create();
+
+            // Build query based on media type
+            // OXID 8.0: oxmedia uses lowercase column names: id, path, type
+            // OXID 8.0: oxproduct_media uses: id, product_id, media_id, position
+            if ($entity->getMediaType() === 'product') {
+                $queryBuilder
+                    ->select('DISTINCT m.path')
+                    ->from('oxmedia', 'm')
+                    ->innerJoin('m', 'oxproduct_media', 'pm', 'm.id = pm.media_id')
+                    ->where('m.path IS NOT NULL')
+                    ->andWhere("m.path != ''");
+            } else {
+                $queryBuilder
+                    ->select('DISTINCT path')
+                    ->from('oxmedia')
+                    ->where('path IS NOT NULL')
+                    ->andWhere("path != ''");
+            }
+
+            /** @var Result $result */
+            $result = $queryBuilder->executeQuery();
 
             $imageCollection = $this->imageCollectionFactory->create();
             while ($data = $result->fetchAssociative()) {
@@ -59,25 +79,5 @@ class MediaImageDatabaseRepository implements MediaImageRepositoryInterface
         } catch (DBALException) {
             throw new ImageDatabaseRepositoryException('oxmedia', $entity->getMediaType());
         }
-    }
-
-    /**
-     * Get the SQL query for a specific media type.
-     */
-    private function getQueryForMediaType(string $mediaType): string
-    {
-        return match ($mediaType) {
-            'product' => <<<SQL
-                SELECT DISTINCT m.OXFILENAME as path
-                FROM oxmedia m
-                INNER JOIN oxproduct_media pm ON m.OXID = pm.OXMEDIAID
-                WHERE m.OXFILENAME IS NOT NULL AND m.OXFILENAME != ''
-                SQL,
-            default => <<<SQL
-                SELECT DISTINCT OXFILENAME as path
-                FROM oxmedia
-                WHERE OXFILENAME IS NOT NULL AND OXFILENAME != ''
-                SQL,
-        };
     }
 }
