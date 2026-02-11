@@ -22,17 +22,30 @@ use OxidEsales\EshopCommunity\Tests\Integration\IntegrationTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use OxidEsales\ConsistencyCheck\ImageManager\Repository\ImageDatabaseRepository;
 
+/**
+ * Tests for the legacy field-based ImageDatabaseRepository.
+ *
+ * OXID 8.0 Architecture:
+ * - Product images: Moved to oxmedia/oxproduct_media tables (see MediaImageDatabaseRepositoryTest)
+ * - Category images: Still use field-based storage (oxcategories.OXTHUMB, OXICON, OXPROMOICON)
+ * - Manufacturer images: Still use field-based storage (oxmanufacturers.OXICON, OXPICTURE, etc.)
+ *
+ * This repository and test cover the category/manufacturer use case.
+ */
 class ImageDatabaseRepositoryTest extends IntegrationTestCase
 {
+    private const TEST_TABLE = 'oxcategories';
+    private const TEST_FIELD = 'OXTHUMB';
+
     #[Test]
     public function itReturnsAllImagesAsImageDataTypeObjects(): void
     {
-        $fieldName = 'OXTHUMB';
-        $image1 = uniqid();
-        $image2 = uniqid();
-        $directoryPath = uniqid();
+        $fieldName = self::TEST_FIELD;
+        $image1 = uniqid() . '.jpg';
+        $image2 = uniqid() . '.png';
+        $directoryPath = '/out/pictures/master/category/thumb';
 
-        $entityStub = $this->createEntityStub($fieldName, 'oxarticles', $directoryPath);
+        $entityStub = $this->createEntityStub($fieldName, self::TEST_TABLE, $directoryPath);
 
         $queryBuilderFactory = ContainerFacade::get(QueryBuilderFactoryInterface::class);
         $this->insertRecord($queryBuilderFactory, ['OXID' => uniqid(), $fieldName => $image1]);
@@ -69,9 +82,9 @@ class ImageDatabaseRepositoryTest extends IntegrationTestCase
     }
 
     #[Test]
-    public function getImagesReturnsEmptyArrayWhenNoRows(): void
+    public function getImagesReturnsEmptyCollectionWhenNoMatchingRows(): void
     {
-        $entityStub = $this->createEntityStub('OXPIC1', 'oxarticles');
+        $entityStub = $this->createEntityStub('OXICON', self::TEST_TABLE);
 
         $imageCollectionStub = $this->createStub(ImageCollectionInterface::class);
 
@@ -91,7 +104,7 @@ class ImageDatabaseRepositoryTest extends IntegrationTestCase
         $this->expectException(ImageDatabaseRepositoryException::class);
 
         $sut = $this->getSut();
-        $sut->getImages(entity: $this->createEntityStub());
+        $sut->getImages(entity: $this->createEntityStub('NONEXISTENT', 'nonexistent_table'));
     }
 
     private function createEntityStub(
@@ -112,7 +125,7 @@ class ImageDatabaseRepositoryTest extends IntegrationTestCase
         array $fields
     ): void {
         $queryBuilder = $queryBuilderFactory->create();
-        $queryBuilder->insert('oxarticles');
+        $queryBuilder->insert(self::TEST_TABLE);
 
         foreach ($fields as $column => $value) {
             $queryBuilder->setValue($column, ":{$column}")
