@@ -44,12 +44,10 @@ class MediaRoleImageEntity implements MediaImageEntityInterface
      */
     public function getQuery(): string
     {
-        return <<<SQL
-            SELECT m.OXFILENAME as path
-            FROM oxmedia m
-            JOIN oxproduct_media pm ON m.OXID = pm.OXMEDIAID
-            JOIN oxproduct_media_roles pmr ON pm.OXID = pmr.OXPRODUCTMEDIAID
-            WHERE pm.OXARTICLEID = :productId AND pmr.OXROLE = :role
-            SQL;
+        return 'SELECT m.OXFILENAME as path '
+            . 'FROM oxmedia m '
+            . 'JOIN oxproduct_media pm ON m.OXID = pm.OXMEDIAID '
+            . 'JOIN oxproduct_media_roles pmr ON pm.OXID = pmr.OXPRODUCTMEDIAID '
+            . 'WHERE pm.OXARTICLEID = :productId AND pmr.OXROLE = :role';
     }
 }

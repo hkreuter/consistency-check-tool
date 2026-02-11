@@ -38,12 +38,10 @@ class MediaImageEntity implements MediaImageEntityInterface
      */
     public function getQuery(): string
     {
-        return <<<SQL
-            SELECT m.OXFILENAME as path, pm.OXSORT as position
-            FROM oxmedia m
-            JOIN oxproduct_media pm ON m.OXID = pm.OXMEDIAID
-            WHERE pm.OXARTICLEID = :productId
-            ORDER BY pm.OXSORT
-            SQL;
+        return 'SELECT m.OXFILENAME as path, pm.OXSORT as position '
+            . 'FROM oxmedia m '
+            . 'JOIN oxproduct_media pm ON m.OXID = pm.OXMEDIAID '
+            . 'WHERE pm.OXARTICLEID = :productId '
+            . 'ORDER BY pm.OXSORT';
     }
 }
